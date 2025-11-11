@@ -48,5 +48,6 @@ Set the define ``GATE_LEVEL=1`` in order to simulate the gate level netlist and 
 
 In order to run the fault simulation for the previously executed SBSTs, it is necessary to go in the  ``${WALLY}/zoix`` folder and run the command:
 ```bash 
-$ ./zoix_cvw.sh
+$ ./zoix_cvw.sh syn_polito_rv32e
 ```
+**Remember that you need to pass a wally configuration to the script**
