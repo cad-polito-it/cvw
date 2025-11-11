@@ -36,10 +36,14 @@ It currently supports only the nangate45 tech library without any additional mod
 **Be carefull with ``-c`` option, it chooses the number of cores used during the synthesis**
 
 # How to simulate
-In order to run a simulation and dump the vcd (for the fault simulation):
+In order to run a simulation and dump the vcd (for the fault simulation) on the gate level netlist:
 ```bash
-wsim wsim --elf ./examples/asm/sbst/sbst.elf --sim questa --tb testbench --vcd syn_polito_rv32e
+wsim --elf ./examples/asm/sbst/sbst.elf --define +define+GATE_LEVEL=1 --sim questa --tb testbench --vcd syn_polito_rv32e
 ```
+Set the define ``GATE_LEVEL=1`` in order to simulate the gate level netlist and ``--gate`` in the wsim command.
+
+**By removing ``GATE_LEVEL=1`` and ``--gate`` you simulate the RTL for the given configuration.**
+
 # How to run the fault simulation on the gate-level netlist
 
 In order to run the fault simulation for the previously executed SBSTs, it is necessary to go in the  ``${WALLY}/zoix`` folder and run the command:
