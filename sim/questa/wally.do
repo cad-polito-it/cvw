@@ -42,7 +42,6 @@ set WKDIR wkdir/${CFG}_${TESTSUITE}
 set WALLY $::env(WALLY)
 set CONFIG ${WALLY}/config
 set SRC ${WALLY}/src
-set GATE ${WALLY}/gate
 set TB ${WALLY}/testbench
 set FCRVVI ${WALLY}/addins/cvw-arch-verif/fcov
 
@@ -76,6 +75,7 @@ set SVLib ""
 set GUI 0
 set accFlag ""
 
+set GATE_SIM 0
 # Need to be able to pass arguments to vopt.  Unfortunately argv does not work because
 # it takes on different values if vsim and the do file are called from the command line or
 # if the do file is called from questa sim directly.  This chunk of code uses the $n variables
@@ -96,6 +96,11 @@ while {$argc > 0} {
 }
 
 echo "lst = $lst"
+
+if {[lcheck lst "--gate"]} {
+    set GATE_SIM 1
+    set GATE "${WALLY}/gate/${CFG}"
+}
 
 # if --gui found set flag and remove from list
 if {[lcheck lst "--gui"]} {
@@ -174,6 +179,8 @@ if {$DefineArgsIndex >= 0} {
 # Debug print statements
 if {$DEBUG > 0} {
     echo "GUI = $GUI"
+    echo "GATE_SIM = $GATE_SIM"
+    echo "GATE = $GATE"
     echo "ccov = $ccov"
     echo "lockstep = $lockstep"
     echo "FunctCoverage = $FunctCoverage"
@@ -189,7 +196,11 @@ if {$DEBUG > 0} {
 # "Extra checking for conflicts with always_comb done at vopt time"
 # because vsim will run vopt
 set INC_DIRS "+incdir+${CONFIG}/${CFG} +incdir+${CONFIG}/deriv/${CFG} +incdir+${CONFIG}/shared"
-set SOURCES "${SRC}/cvw.sv ${TB}/${TESTBENCH}.sv ${TB}/common/*.sv ${GATE}/*.v ${GATE}/*.sv ${SRC}/*/*.sv ${SRC}/*/*/*.sv ${WALLY}/addins/verilog-ethernet/*/*.sv ${WALLY}/addins/verilog-ethernet/*/*/*/*.sv"
+if {${GATE_SIM} > 0 } {
+    set SOURCES "${SRC}/cvw.sv ${TB}/${TESTBENCH}.sv ${TB}/common/*.sv ${SRC}/*/*.sv ${SRC}/*/*/*.sv ${GATE}/*.v ${GATE}/*.sv ${WALLY}/addins/verilog-ethernet/*/*.sv ${WALLY}/addins/verilog-ethernet/*/*/*/*.sv"
+} else {
+    set SOURCES "${SRC}/cvw.sv ${TB}/${TESTBENCH}.sv ${TB}/common/*.sv ${SRC}/*/*.sv ${SRC}/*/*/*.sv ${WALLY}/addins/verilog-ethernet/*/*.sv ${WALLY}/addins/verilog-ethernet/*/*/*/*.sv"
+}
 vlog -permissive -lint -work ${WKDIR} {*}${INC_DIRS} {*}${DefineArgs} {*}${lockstepvlog} {*}${FCvlog} {*}${brekervlog} {*}${SOURCES} -suppress 2282,2583,7053,7063,2596,13286,2605,2250
 
 # start and run simulation

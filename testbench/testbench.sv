@@ -266,8 +266,9 @@ module testbench;
     if (MAKE_VCD) begin
       $dumpfile("core_rtl.vcd");
       $dumpvars(1, dut.core.MTimerInt, dut.core.MExtInt, dut.core.SExtInt, dut.core.MSwInt, dut.core.MTIME_CLINT, dut.core.HRDATA, dut.core.HREADY, dut.core.HRESP, dut.core.HCLK, dut.core.HRESETn, dut.core.HADDR, dut.core.HWDATA, dut.core.HWSTRB, dut.core.HWRITE, dut.core.HSIZE, dut.core.HBURST, dut.core.HPROT, dut.core.HTRANS, dut.core.HMASTLOCK, dut.core.ExternalStall);
-      $dumpports(dut.core_gate,"core.vcd");
-
+`ifdef GATE_LEVEL
+      $dumpports(dut.core_gate,"core_gate.vcd");
+`endif /*GATE_LEVEL*/
     end
   end // initial begin
 
@@ -745,8 +746,9 @@ module testbench;
 
   DCacheFlushFSM #(P) DCacheFlushFSM(.clk, .start(DCacheFlushStart), .done(DCacheFlushDone));
 
-`ifdef GATE_LEVEL
-  if(P.ZICSR_SUPPORTED) begin
+`ifndef GATE_LEVEL
+/* TODO check if the problem here is the E_SUPPORTED */
+  if(P.ZICSR_SUPPORTED && P.E_SUPPORTED) begin
     logic [P.XLEN-1:0] Minstret;
     assign Minstret = testbench.dut.core.priv.priv.csr.counters.counters.HPMCOUNTER_REGW[2];
     always @(negedge clk) begin

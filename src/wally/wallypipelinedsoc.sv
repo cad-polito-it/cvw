@@ -95,11 +95,13 @@ module wallypipelinedsoc import cvw::*; #(parameter cvw_t P)  (
     .HWRITE, .HSIZE, .HBURST, .HPROT, .HTRANS, .HMASTLOCK, .ExternalStall
    );
 
+`ifdef GATE_LEVEL 
    wallypipelinedcore_gate core_gate(.clk, .reset,
     .MTimerInt, .MExtInt, .SExtInt, .MSwInt, .MTIME_CLINT,
     .HRDATA, .HREADY, .HRESP, .HCLK(HCLK_gate), .HRESETn(HRESETn_gate), .HADDR(HADDR_gate), .HWDATA(HWDATA_gate), .HWSTRB(HWSTRB_gate),
     .HWRITE(HWRITE_gate), .HSIZE(HSIZE_gate), .HBURST(HBURST_gate), .HPROT(HPROT_gate), .HTRANS(HTRANS_gate), .HMASTLOCK(HMASTLOCK_gate), .ExternalStall
    );
+`endif /*GATE_LEVEL*/
 
   // instantiate uncore if a bus interface exists
   if (P.BUS_SUPPORTED) begin : uncoregen // Hack to work around Verilator bug https://github.com/verilator/verilator/issues/4769

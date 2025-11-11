@@ -35,6 +35,7 @@ def parseArgs():
     parser.add_argument("--lockstep", "-l", help="Run ImperasDV lock, step, and compare.", action="store_true")
     parser.add_argument("--lockstepverbose", "-lv", help="Run ImperasDV lock, step, and compare with tracing enabled", action="store_true")
     parser.add_argument("--rvvi", "-r", help="Simulate rvvi hardware interface and ethernet.", action="store_true")
+    parser.add_argument("--gate", help="Simulate the gate level netlist.", action="store_true", default="")
     return parser.parse_args()
 
 def validateArgs(args):
@@ -161,7 +162,8 @@ def runQuesta(args, flags, prefix):
         args.params = fr'--params \"{args.params}\"'
     if args.define:
         args.define = fr'--define \"{args.define}\"'
-    cmd = f"do wally.do {args.config} {args.testsuite} {args.tb} {args.args} {args.params} {args.define} {flags}"
+    gateSim = "--gate" if args.gate else "" 
+    cmd = f"do wally.do {args.config} {args.testsuite} {args.tb} {args.args} {args.params} {args.define} {flags} {gateSim}"
     cmd = f'cd $WALLY/sim/questa; {prefix} vsim {"-c" if not args.gui else ""} -do "{cmd}"'
     print(f"Running Questa with command: {cmd}")
     os.system(cmd)
