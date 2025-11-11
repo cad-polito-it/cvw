@@ -10,7 +10,7 @@
  */
 
 /* Entry point for bare metal programs */
-.section .text.start
+.section .text.init
 .global _start
 .type _start, @function
 
@@ -27,7 +27,7 @@ _start:
 
 /* set vector table address and vectored mode */
 	la a0, __vector_start
-        ori a0, a0, 0x1
+    ori a0, a0, 0x1
 	csrw mtvec, a0
 
 /* clear the bss segment */
