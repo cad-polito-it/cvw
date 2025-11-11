@@ -8,7 +8,7 @@ set(var=[coats],method=[allf])
 
 design()
 
-addtst(test=[cvw], stimtype=[vcd], stim=[../../sim/questa/core.vcd],stim.limit.mismatch=[100], dut.stim=[wallypipelinedcore_gate, testbench.dut.core_gate], stim_options=[+TESTNAME=cvw,+vcd+clk+clk])
+addtst(test=[cvw], stimtype=[vcd], stim=[${WALLY}/sim/questa/core_gate.vcd],stim.limit.mismatch=[100], dut.stim=[wallypipelinedcore_gate, testbench.dut.core_gate], stim_options=[+TESTNAME=cvw,+vcd+clk+clk])
 
 fsim()
 coverage(group=[detail])
