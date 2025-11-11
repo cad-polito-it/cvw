@@ -1477,3 +1477,23 @@ DCACHE_SUPPORTED        0
 ICACHE_SUPPORTED        0
 # User mode supported
 U_SUPPORTED             1
+
+
+deriv   syn_polito_rv32e_cached       rv32e
+ZICSR_SUPPORTED         1
+E_SUPPORTED             0
+PMP_ENTRIES             16
+DTIM_RANGE              64'h1FF
+IROM_RANGE              64'h1FF
+BOOTROM_RANGE           64'h1FF
+UNCORE_RAM_RANGE        64'h1FF
+DCACHE_WAYSIZEINBYTES   32'd512
+ICACHE_WAYSIZEINBYTES   32'd512
+DCACHE_NUMWAYS          32'd1
+ICACHE_NUMWAYS          32'd1
+BPRED_SIZE              32'd5
+BTB_SIZE                32'd5
+DCACHE_SUPPORTED        1
+ICACHE_SUPPORTED        1
+# User mode supported
+U_SUPPORTED             1
