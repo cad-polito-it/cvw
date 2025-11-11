@@ -20,10 +20,12 @@ def runSynth(config, mod, tech, freq, maxopt, usesram, cores):
     command = f"make synth DESIGN=wallypipelinedcore CONFIG={config} MOD={mod} TECH={tech} DRIVE=FLOP FREQ={freq} MAXOPT={maxopt} USESRAM={usesram} MAXCORES={cores}"
     subprocess.run([command],shell=True)
     
-    gateFolder = os.path.join(os.environ['WALLY'],"gate")
+    gateFolder = os.path.join(os.environ['WALLY'],"gate",config)
     currDir = "./runs/"
     folders = [name for name in os.listdir(currDir) if os.path.isdir(os.path.join(currDir, name))]
     sorted_folders = sorted(folders, key=extract_datetime, reverse=True)
+    # Filter based on current config
+    sorted_folders = [folder for folder in sorted_folders if config in folder]
     
     folderOfInterest = os.path.join(currDir, sorted_folders[0], "mapped")
     shutil.copytree(folderOfInterest, gateFolder)
