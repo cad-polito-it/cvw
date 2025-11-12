@@ -1,4 +1,4 @@
-.section .text, "awx"
+.section .text
 .global test1
 .type test1, @function
 
