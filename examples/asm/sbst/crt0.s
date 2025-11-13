@@ -77,7 +77,10 @@ _start:
 	lw a0, 0(sp)                    /* a0 = argc */
 	li a1, 0                        /* a1 = argv */
 	call main
-	tail exit
+
+  # Stop the simulator 
+self_loop:
+    j self_loop         # wait
 
 .global _init
 .type   _init, @function
