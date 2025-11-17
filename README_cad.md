@@ -44,6 +44,7 @@ Set the define ``GATE_LEVEL=1`` in order to simulate the gate level netlist and 
 
 **By removing ``GATE_LEVEL=1`` and ``--gate`` you simulate the RTL for the given configuration.**
 
+> **_NOTE:_**  You can use questa or vcs logic simulator (``--sim questa`` or``--sim vcs``) with and without ``--gui`` option.
 # How to run the fault simulation on the gate-level netlist
 
 In order to run the fault simulation for the previously executed SBSTs, it is necessary to go in the  ``${WALLY}/zoix`` folder and run the command:
