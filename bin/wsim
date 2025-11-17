@@ -45,10 +45,10 @@ def validateArgs(args):
     if (args.lockstep or args.lockstepverbose) and not ((args.testsuite and args.testsuite.endswith(".elf")) or args.elf) and args.testsuite != "buildroot":
         print(f"Invalid Options. Cannot run a testsuite, {args.testsuite} with lockstep. Must run a single elf or buildroot.")
         sys.exit(1)
-    elif args.gui and args.sim != "questa":
-        print("GUI only supported by Questa")
+    elif args.gui and args.sim not in ["questa", "vcs"]:
+        print("GUI only supported by Questa or VCS")
         sys.exit(1)
-    elif any([args.gui, args.ccov, args.fcov]) and args.sim != "questa":
+    elif args.gui and any([args.ccov, args.fcov]) and args.sim != "questa":
         print("Coverage only supported by Questa")
         sys.exit(1)
     elif any([args.lockstep, args.lockstepverbose]) and args.sim not in ["questa", "vcs"]:

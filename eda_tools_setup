@@ -10,6 +10,7 @@ module load compiler/riscv/wally
 module load synopsys/tmax/2022.12
 module load siemens/questa_core_prime/2022.4
 module load synopsys/zoix/2022.06-SP2
+module load synopsys/verdi/2023.12-SP1 
 
 # Colors for terminal output
 WARNING_COLOR='\033[93m'

@@ -41,7 +41,7 @@ def parseArgs():
     parser.add_argument("--define", "-d", help="Optional define macros passed to simulator", default="")
     parser.add_argument("--lockstep", "-l", help="Run ImperasDV lock, step, and compare.", action="store_true")
     parser.add_argument("--breker", "-b", help="Run Breker test", action="store_true")
-    #parser.add_argument("--gui", "-g", help="Simulate with GUI", action="store_true") # GUI not yet implemented
+    parser.add_argument("--gui", "-g", help="Simulate with GUI", action="store_true") # GUI not yet implemented
     parser.add_argument("--gate", help="Simulate the gate level netlist.", action="store_true", default="")
     return parser.parse_args()
 
@@ -93,8 +93,9 @@ def processArgs(wkdir, args):
         compileOptions.append(setupParamOverrides(wkdir, args))
     if args.define:
         compileOptions.append(args.define)
-    # if args.gui:
-    #     compileOptions.append("-debug_access+all+reverse -kdb +vcs+vcdpluson")
+    if args.gui:
+        compileOptions.append("-debug_access+all -kdb")
+        simvOptions.append("-gui")
     compileOptions = " ".join(compileOptions)
     simvOptions = " ".join(simvOptions)
     return compileOptions, simvOptions

@@ -133,6 +133,9 @@ sim/vcs/verdi_config_file
 sim/vcs/vcdplus.vpd
 sim/vcs/simprofile*
 
+#Verdi 
+sim/vcs/verdiLog
+sim/vcs/novas*
 # Verilator
 sim/verilator/logs
 sim/verilator/wkdir
