@@ -180,7 +180,8 @@ def runVCS(args, flags, prefix):
         args.params = f'--params "{args.params}"'
     if args.define:
         args.define = f'--define "{args.define}"'
-    cmd = f"cd $WALLY/sim/vcs; {prefix} ./run_vcs {args.config} {args.testsuite} --tb {args.tb} {args.args} {args.params} {args.define} {flags}"
+    gateSim = "--gate" if args.gate else "" 
+    cmd = f"cd $WALLY/sim/vcs; {prefix} ./run_vcs {args.config} {args.testsuite} --tb {args.tb} {args.args} {args.params} {args.define} {flags} {gateSim}"
     print(cmd)
     os.system(cmd)
 

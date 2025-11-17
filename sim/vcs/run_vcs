@@ -16,6 +16,7 @@ WALLY  = os.environ.get("WALLY")
 simdir = f"{WALLY}/sim/vcs"
 cfgdir = f"{WALLY}/config"
 srcdir = f"{WALLY}/src"
+gatedir = f"{WALLY}/gate"
 tbdir  = f"{WALLY}/testbench"
 logdir = f"{simdir}/logs"
 
@@ -41,6 +42,7 @@ def parseArgs():
     parser.add_argument("--lockstep", "-l", help="Run ImperasDV lock, step, and compare.", action="store_true")
     parser.add_argument("--breker", "-b", help="Run Breker test", action="store_true")
     #parser.add_argument("--gui", "-g", help="Simulate with GUI", action="store_true") # GUI not yet implemented
+    parser.add_argument("--gate", help="Simulate the gate level netlist.", action="store_true", default="")
     return parser.parse_args()
 
 def createDirs(config, testsuite):
@@ -58,6 +60,14 @@ def generateFileList(testbench):
     tbcommon_files = runFindCommand(tbcommon_cmd)
     tb_file = f"{tbdir}/{testbench}.sv"
     return f"{tb_file} {rtlsrc_files} {tbcommon_files}"
+
+def generateGateLevelFilList(gate, config, testbench):
+    if not(gate):
+        return ""
+    # We are only looking for the gate level netlist and library file
+    gate_cmd = f'find {gatedir}/{config} -name "*.sv" -o -name "*.v" '
+    gatesrc_file = runFindCommand(gate_cmd)
+    return f"{gatesrc_file}"
 
 def processArgs(wkdir, args):
     compileOptions = []
@@ -100,7 +110,8 @@ def setupParamOverrides(wkdir, args):
 
 def setupCommands(wkdir, rtlFiles, compileOptions, simvOptions, args):
     includePath = f"+incdir+{cfgdir}/{args.config} +incdir+{cfgdir}/deriv/{args.config} +incdir+{cfgdir}/shared +incdir+$WALLY/tests +incdir+{tbdir} +incdir+{srcdir}"
-    vcsStandardFlags = "+lint=all,noGCWM,noUI,noSVA-UA,noIDTS,noNS,noULCO,noCAWM-L,noWMIA-L,noSV-PIU,noSTASKW_CO,noSTASKW_CO1,noSTASKW_RMCOF -suppress +warn -sverilog +vc -Mupdate -line -full64 -lca -ntb_opts sensitive_dyn"
+    # since the timescale is defined in the testbench, we must define the timescale for modules without it
+    vcsStandardFlags = "-timescale=1ns/1ps +lint=all,noGCWM,noUI,noSVA-UA,noIDTS,noNS,noULCO,noCAWM-L,noWMIA-L,noSV-PIU,noSTASKW_CO,noSTASKW_CO1,noSTASKW_RMCOF -suppress +warn -sverilog +vc -Mupdate -line -full64 -lca -ntb_opts sensitive_dyn"
     vcsCMD = f"vcs {vcsStandardFlags} -top {args.tb} {compileOptions} -Mdir={wkdir} {includePath} {srcdir}/cvw.sv {rtlFiles} -o {wkdir}/sim_out -work {wkdir} -Mlib={wkdir} -l {logdir}/{args.config}_{args.testsuite}.log"
     simvCMD = f"{wkdir}/sim_out +TEST={args.testsuite} {args.args} -no_save {simvOptions}"
     return vcsCMD, simvCMD
@@ -118,6 +129,8 @@ def main(args):
     print(f"run_vcs Config={args.config} tests={args.testsuite} lockstep={args.lockstep} args='{args.args}' params='{args.params}' define='{args.define}'")
     wkdir = createDirs(args.config, args.testsuite)
     rtlFiles = generateFileList(args.tb)
+    gateFiles = generateGateLevelFilList(args.gate, args.config, args.tb)
+    rtlFiles += gateFiles
     compileOptions, simvOptions = processArgs(wkdir, args)
     vcsCMD, simvCMD = setupCommands(wkdir, rtlFiles, compileOptions, simvOptions, args)
     runVCS(vcsCMD, simvCMD)
