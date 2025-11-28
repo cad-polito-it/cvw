@@ -10,6 +10,6 @@ FaultGenerate
     #TDF
         #NA [R,F] {PORT "riscv_core.ex_stage_i_alu_i.**"}
         #NA [R,F] {PORT "riscv_core.ex_stage_i_mult_i.**"}
-        # NA [R,F] {PORT "riscv_core.**"}
+        #NA [R,F] {PORT "riscv_core.**"}
 
 }
