@@ -1497,3 +1497,5 @@ DCACHE_SUPPORTED        1
 ICACHE_SUPPORTED        1
 # User mode supported
 U_SUPPORTED             1
+ZICBOM_SUPPORTED        1
+ZICBOZ_SUPPORTED        1
