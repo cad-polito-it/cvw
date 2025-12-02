@@ -20,6 +20,17 @@ __stack_size = 0x00400;
 /* Sections                                                             */
 /*----------------------------------------------------------------------*/
 
+/*TODO: define a cache zone
+
+.data :
+{
+  __data_start = .;
+  *(.data*)
+  __data_end = .;
+} > ram
+
+*/
+
 SECTIONS
 {
 
@@ -41,7 +52,13 @@ SECTIONS
   .text : { *(.text) }
 
   /* data segment */
-  .data : { *(.data) }
+  /* .data : { *(.data) } */
+  .data :
+    {
+      __data_start = .;
+      *(.data*)
+      __data_end = .;
+    }
 
   .sdata : {
     __global_pointer$ = . + 0x800;
