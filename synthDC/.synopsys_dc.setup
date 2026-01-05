@@ -52,7 +52,7 @@ if {$tech == "sky130"} {
     lappend target_library $s10lib/tcbn28hpcplusbwp30p140tt0p9v25c.db
     lappend mw_reference_library $MW_REFERENCE_LIBRARY/tcbn28hpcplusbwp30p140    
 } elseif {$tech == "nangate45"} {
-	set TECHLIB_PATH /data/libraries/NangateOpenCellLibrary_15_45_nm/45nm
+	set TECHLIB_PATH /data/libraries/nangate45
 	set target_library $TECHLIB_PATH/NangateOpenCellLibrary_typical.db 
 }
 
