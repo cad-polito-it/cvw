@@ -13,7 +13,7 @@ typedef unsigned int signature_t;
 
 extern signature_t test1(void);
 
-void march_c_minus_single_way(void);
+void march_c_minus_one_way(void);
 
 
 #endif /*TESTS_H */

@@ -62,7 +62,7 @@ uint8_t * check_payload (uint32_t golden_payload, uint8_t dir) {
   }
 }
 
-void march_c_minus_one_way (void) {
+void march_c_minus_one_way(void) {
   uint32_t payload=0;
   uint8_t  i, *ret;
   uint32_t patterns[5] = {0x55555555, 0x33333333,0x0F0F0F0F, 0x00FF00FF, 0x0000FFFF};
