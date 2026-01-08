@@ -18,13 +18,15 @@ export LOGIC_SIMULATOR=$2
 
 zoix -f ../netlist.f  +timescale+override+1ns/1ps \
 +top+wallypipelinedcore_gate+strobe \
-+sv +notimingchecks +define+ZOIX +define+TOPLEVEL=wallypipelinedcore_gate +suppress+cell +delay_mode_fault +verbose+undriven -l zoix_compile.log
++sv +notimingchecks +define+ZOIX +define+TOPLEVEL=wallypipelinedcore_gate +suppress+cell +delay_mode_fault +verbose+undriven -l zoix_compile.log \
++vcs+initreg+random
 
 
 #2 step, simulation:
 
 ./zoix.sim +vcd+file+"${WALLY}/sim/${LOGIC_SIMULATOR}/core_gate.vcd" \
- +vcd+dut+wallypipelinedcore_gate+testbench.dut.core_gate +vcd+verify +vcd+verbose  -l logic_sim.log +vcd+limit+mismatch+100000
+ +vcd+dut+wallypipelinedcore_gate+testbench.dut.core_gate +vcd+verify +vcd+verbose  -l logic_sim.log +vcd+limit+mismatch+100000 \
+ +vcs+initreg+0
 
 
 #3 run fault simulation

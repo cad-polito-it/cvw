@@ -85,8 +85,10 @@ def processArgs(wkdir, args):
                                f"+incdir+{os.path.dirname(WALLY_UVM_PKG)}",
                                 " -ntb_opts uvm",
                                f"{WALLY_UVM_PKG}",
+                               "+vcs+initreg+random",
                                "-top trek_uvm",])
         simvOptions.append(f"-sv_lib {BREKER_HOME}/linux64/lib/libtrek")
+        simvOptions.append("+vcs+initreg+0")
     # if args.ccov:
     #     compileOptions.extend(["-cm line+cond+branch+fsm+tgl", f"-cm_log {wkdir}/coverage.log", f"-cm_dir {wkdir}/coverage"])
     if args.params:
