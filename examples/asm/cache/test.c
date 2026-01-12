@@ -24,15 +24,15 @@ void write_payload (uint32_t payload, uint8_t dir) {
   uint16_t i;
   
   if (dir) {
-    for (base = __data_start; base < __data_end; base += 128) {
-      for (i=0; i<128; i++) {
+    for (base = __data_start; base < __data_end; base += CACHE_LINE_SIZE) {
+      for (i=0; i<CACHE_LINE_SIZE; i++) {
         *(base+i) = payload;
       }
     }
   }
   else {
-    for (base = __data_end-128; base >= __data_start; base -= 128) {
-      for (i=128; i>0; i--) {
+    for (base = __data_end-CACHE_LINE_SIZE; base >= __data_start; base -= CACHE_LINE_SIZE) {
+      for (i=CACHE_LINE_SIZE; i>0; i--) {
         *(base+i) = payload;
       }
     }
@@ -45,16 +45,16 @@ uint32_t * check_payload (uint32_t golden_payload, uint32_t dir) {
   uint16_t i;
 
   if (dir) {
-    for (base = __data_start; base < __data_end; base += 128) {
-      for (i=0; i<128; i++) {
+    for (base = __data_start; base < __data_end; base += CACHE_LINE_SIZE) {
+      for (i=0; i<CACHE_LINE_SIZE; i++) {
         tmp = *(base+i);
 	if (tmp!=golden_payload) return (base+i);
       }
     }
   }
   else {
-    for (base = __data_end-128; base >= __data_start; base -= 128) {
-      for (i=128; i>0; i--) {
+    for (base = __data_end-CACHE_LINE_SIZE; base >= __data_start; base -= CACHE_LINE_SIZE) {
+      for (i=CACHE_LINE_SIZE; i>0; i--) {
 	tmp = *(base+i);
 	if (tmp!=golden_payload) return (base+i);
       }

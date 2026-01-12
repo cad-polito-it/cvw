@@ -13,9 +13,9 @@ const signature_t const GOLDEN_SIGNATURES[NUMTESTS] = {
 
 // Flush all the cache
 void cache_flush(void) {
-    uint8_t *p = __data_start;
-    uint8_t *end = __data_end;
-    const unsigned line = 512;   // size taken form derivlist.txt
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
 
     for (; p < end; p += line) {
         __asm__ volatile ("cbo.flush (%0)" :: "r"(p) : "memory");
@@ -29,9 +29,9 @@ void cache_flush_block(void* addr) {
 //cbo.clean   --> Cleans a cache block
 
 void cache_clean(void) {
-    uint8_t *p = __data_start;
-    uint8_t *end = __data_end;
-    const unsigned line = 512;   // size taken form derivlist.txt
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
 
     for (; p < end; p += line) {
         __asm__ volatile ("cbo.clean (%0)" :: "r"(p) : "memory");
@@ -44,9 +44,9 @@ void cache_clean_block(void* addr) {
 
 //cbo.inval   --> Perform an invalidate operation on a cache block
 void cache_inval(void) {
-    uint8_t *p = __data_start;
-    uint8_t *end = __data_end;
-    const unsigned line = 512;   // size taken form derivlist.txt
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
 
     for (; p < end; p += line) {
         __asm__ volatile ("cbo.inval (%0)" :: "r"(p) : "memory");
@@ -58,9 +58,9 @@ void cache_inval_block(void* addr) {
 
 //cbo.zero    --> Store zeros to the full set of bytes corresponding to a cache block
 void cache_zero(void) {
-    uint8_t *p = __data_start;
-    uint8_t *end = __data_end;
-    const unsigned line = 512;   // size taken form derivlist.txt
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
 
     for (; p < end; p += line) {
         __asm__ volatile ("cbo.zero (%0)" :: "r"(p) : "memory");

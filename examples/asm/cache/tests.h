@@ -6,6 +6,9 @@
 
 #include <stdint.h>
 
+// cache_line_size / 4
+#define CACHE_LINE_SIZE 128
+
 // extern uint8_t __data_start[];
 // extern uint8_t __data_end[];
 extern uint32_t __data_start[];
