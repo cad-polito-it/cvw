@@ -6,8 +6,10 @@
 
 #include <stdint.h>
 
-extern uint8_t __data_start[];
-extern uint8_t __data_end[];
+// extern uint8_t __data_start[];
+// extern uint8_t __data_end[];
+extern uint32_t __data_start[];
+extern uint32_t __data_end[];
 
 typedef unsigned int signature_t;
 

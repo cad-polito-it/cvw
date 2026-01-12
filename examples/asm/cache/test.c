@@ -20,41 +20,41 @@
 */
 
 void write_payload (uint32_t payload, uint8_t dir) {
-  uint8_t  *base;
+  uint32_t  *base;
   uint16_t i;
   
   if (dir) {
-    for (base = __data_start; base < __data_end; base += 512) {
-      for (i=0; i<512; i+=4) {
+    for (base = __data_start; base < __data_end; base += 128) {
+      for (i=0; i<128; i++) {
         *(base+i) = payload;
       }
     }
   }
   else {
-    for (base = __data_end-512; base >= __data_end; base -= 512) {
-      for (i=508; i>=0; i-=4) {
+    for (base = __data_end-128; base >= __data_start; base -= 128) {
+      for (i=128; i>0; i--) {
         *(base+i) = payload;
       }
     }
   }
 }
 
-uint8_t * check_payload (uint32_t golden_payload, uint8_t dir) {
+uint32_t * check_payload (uint32_t golden_payload, uint32_t dir) {
   uint32_t tmp;
-  uint8_t  *base;
+  uint32_t  *base;
   uint16_t i;
 
   if (dir) {
-    for (base = __data_start; base < __data_end; base += 512) {
-      for (i=0; i<512; i+=4) {
+    for (base = __data_start; base < __data_end; base += 128) {
+      for (i=0; i<128; i++) {
         tmp = *(base+i);
 	if (tmp!=golden_payload) return (base+i);
       }
     }
   }
   else {
-    for (base = __data_end-512; base >= __data_end; base -= 512) {
-      for (i=508; i>=0; i-=4) {
+    for (base = __data_end-128; base >= __data_start; base -= 128) {
+      for (i=128; i>0; i--) {
 	tmp = *(base+i);
 	if (tmp!=golden_payload) return (base+i);
       }
@@ -64,7 +64,8 @@ uint8_t * check_payload (uint32_t golden_payload, uint8_t dir) {
 
 void march_c_minus_one_way(void) {
   uint32_t payload=0;
-  uint8_t  i, *ret;
+  uint8_t  i;
+  uint32_t *ret;
   uint32_t patterns[5] = {0x55555555, 0x33333333,0x0F0F0F0F, 0x00FF00FF, 0x0000FFFF};
 
   // step 0
@@ -101,5 +102,5 @@ void march_c_minus_one_way(void) {
       write_payload(payload, 0);
     }
   }
-
+  ret = check_payload(payload, 1);
 }
