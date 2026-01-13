@@ -1,5 +1,56 @@
 #include "tests.h"
 
+// Info on cache instructions:
+// https://docs.riscv.org/reference/isa/v20240411/unpriv/cmo.html
+
+
+// cbo.flush --> flushes a cacheline 
+
+// Flush all the cache
+void cache_flush(void) {
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
+
+    for (; p < end; p += line) {
+        __asm__ volatile ("cbo.flush (%0)" :: "r"(p) : "memory");
+    }
+}
+// Single cacheline flush
+void cache_flush_block(void* addr) {
+	__asm__ volatile ("cbo.flush (%0)" :: "r"(addr) : "memory");
+}
+
+//cbo.clean   --> Cleans a cache block
+
+void cache_clean(void) {
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
+
+    for (; p < end; p += line) {
+        __asm__ volatile ("cbo.clean (%0)" :: "r"(p) : "memory");
+    }
+}
+
+void cache_clean_block(void* addr) {
+	__asm__ volatile ("cbo.clean (%0)" :: "r"(addr) : "memory");
+}
+
+//cbo.inval   --> Perform an invalidate operation on a cache block
+void cache_inval(void) {
+    uint32_t *p = __data_start;
+    uint32_t *end = __data_end;
+    const unsigned line = CACHE_LINE_SIZE;   // size taken form derivlist.txt
+
+    for (; p < end; p += line) {
+        __asm__ volatile ("cbo.inval (%0)" :: "r"(p) : "memory");
+    }
+}
+void cache_inval_block(void* addr) {
+	__asm__ volatile ("cbo.inval (%0)" :: "r"(addr) : "memory");
+}
+
 /* https://onlinedocs.microchip.com/oxy/GUID-D1946615-13DB-429F-8835-9FD61AEECC58-en-US-1/GUID-58171B11-CBE8-45BA-9D76-C57C942F4352.html 
  * ⇕0(w00000000);
  * ⇑1(r00000000,w11111111);
@@ -105,4 +156,18 @@ void march_c_minus_one_way(void) {
 
 
   ret = check_payload(payload, 1);
+}
+
+void test_flush (void) {\
+  uint32_t payload = 0;
+  
+  write_payload(payload, 1);
+  cache_flush();  
+  check_payload(payload, 1);
+
+  payload = 1;
+  write_payload(payload, 1);
+  cache_flush();  
+  check_payload(payload, 1);
+
 }
