@@ -16,17 +16,23 @@ module strobe;
 
 
 //#`START_TIME;
-
+logic go=0;
 initial begin 
 
-    #22;
-    forever begin 
+    #90;
+    go=1;
+    // forever begin 
         
-        $fs_strobe(`TOPLEVEL );
-        #10;
-        $display("Strobed at %t", $time);
-    end
+    //     $fs_strobe(`TOPLEVEL);
+    //     #10;
+    //     $display("Strobed at %t", $time);
+    // end
 end 
+
+always @(negedge wallypipelinedcore_gate.clk & go) begin
+    $fs_strobe(wallypipelinedcore_gate);
+    // $display("Strobed at %t", $time);
+end
 
 final begin 
     $display ("DONE");

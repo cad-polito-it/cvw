@@ -71,12 +71,12 @@ void march_c_minus_one_way(void) {
   // step 0
   write_payload(payload, 1); // 1 descending, 0 ascending
   
-  // step 1
+  // // step 1
   ret = check_payload(payload, 0);
   payload=-1;
   write_payload(payload, 0);
 
-  // step 2
+  // // step 2
   ret = check_payload(payload, 0);
   payload=0;
   write_payload(payload, 0);
@@ -102,5 +102,7 @@ void march_c_minus_one_way(void) {
       write_payload(payload, 0);
     }
   }
+
+
   ret = check_payload(payload, 1);
 }

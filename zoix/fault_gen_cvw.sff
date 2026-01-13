@@ -1,9 +1,19 @@
 
+FaultInfo{
+    FaultID;
+    FubNum;
+    TestNum;
+    Attempts;
+    NumPot;
+    NumSelected;
+    Tenacity;
+}
+
 
 FaultGenerate
 {
     #SAF    
-        NA [0,1] {PORT "wallypipelinedcore_gate.**"}
+        NA [0,1] {PORT "wallypipelinedcore_gate.lsu.bus_dcache_dcache.**"}
         #NA [0,1] {PORT "riscv_core.ex_stage_i_mult_i.**"}
         #NA [0,1] {PORT "riscv_core.**"}
 

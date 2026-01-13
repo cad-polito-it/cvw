@@ -70,56 +70,56 @@ int main()
   printf("step 0: write 0 descending\n");
   write_payload(payload, 1); // 1 descending, 0 ascending
 
-  // step 1
-  printf("step 1: read 0 ascending\n");
-  ret = check_payload(payload, 0);
-  if (ret) return -1;
-  payload=-1;
-  printf("step 1: write 1 ascending\n");
-  write_payload(payload, 0);
+  // // step 1
+  // printf("step 1: read 0 ascending\n");
+  // ret = check_payload(payload, 0);
+  // if (ret) return -1;
+  // payload=-1;
+  // printf("step 1: write 1 ascending\n");
+  // write_payload(payload, 0);
   
-  // step 2
-  printf("step 2: read 1 ascending\n");
-  ret = check_payload(payload, 0);
-  if (ret) return -1;
-  payload=0;
-  printf("step 2: write 0 ascending\n");
-  write_payload(payload, 0);
+  // // step 2
+  // printf("step 2: read 1 ascending\n");
+  // ret = check_payload(payload, 0);
+  // if (ret) return -1;
+  // payload=0;
+  // printf("step 2: write 0 ascending\n");
+  // write_payload(payload, 0);
 
-  // step 3
-  printf("step 3: read 0 descending\n");
-  ret = check_payload(payload, 1);
-  if (ret) return -1;
-  payload=-1;
-  printf("step 3: write 1 descending\n");
-  write_payload(payload, 1);
+  // // step 3
+  // printf("step 3: read 0 descending\n");
+  // ret = check_payload(payload, 1);
+  // if (ret) return -1;
+  // payload=-1;
+  // printf("step 3: write 1 descending\n");
+  // write_payload(payload, 1);
 
-  // step 4
-  printf("step 4: read 1 descending\n");
-  ret = check_payload(payload, 1);
-  if (ret) return -1;
-  payload=0;
-  printf("step 4: write 0 descending\n");
-  write_payload(payload, 1);
+  // // step 4
+  // printf("step 4: read 1 descending\n");
+  // ret = check_payload(payload, 1);
+  // if (ret) return -1;
+  // payload=0;
+  // printf("step 4: write 0 descending\n");
+  // write_payload(payload, 1);
   
-  for (i=0; i<5; i++) {
-    printf("step %d: read patter descending\n", i+5);
-    ret = check_payload(payload, 1);
-    if (ret) return -1;
-    payload=patterns[i];
-    printf("step %d: write pattern descending\n", i+5);
-    write_payload(payload, 1);
+  // for (i=0; i<5; i++) {
+  //   printf("step %d: read patter descending\n", i+5);
+  //   ret = check_payload(payload, 1);
+  //   if (ret) return -1;
+  //   payload=patterns[i];
+  //   printf("step %d: write pattern descending\n", i+5);
+  //   write_payload(payload, 1);
 
-    printf("step %d: read pattern ascending\n", i+5);
-    ret = check_payload(payload, 0);
-    if (ret) return -1;
-    payload=~payload;
-    printf("step %d: write pattern ascending\n", i+5);
-    write_payload(payload, 0);
-  }
-  printf("step %d: read patter descending\n", 10);
-  ret = check_payload(payload, 1);
-  if (ret) return -1;
+  //   printf("step %d: read pattern ascending\n", i+5);
+  //   ret = check_payload(payload, 0);
+  //   if (ret) return -1;
+  //   payload=~payload;
+  //   printf("step %d: write pattern ascending\n", i+5);
+  //   write_payload(payload, 0);
+  // }
+  // printf("step %d: read patter descending\n", 10);
+  // ret = check_payload(payload, 1);
+  // if (ret) return -1;
 
 
   return 0;

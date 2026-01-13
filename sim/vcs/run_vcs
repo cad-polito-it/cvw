@@ -113,8 +113,8 @@ def setupCommands(wkdir, rtlFiles, compileOptions, simvOptions, args):
     includePath = f"+incdir+{cfgdir}/{args.config} +incdir+{cfgdir}/deriv/{args.config} +incdir+{cfgdir}/shared +incdir+$WALLY/tests +incdir+{tbdir} +incdir+{srcdir}"
     # since the timescale is defined in the testbench, we must define the timescale for modules without it
     vcsStandardFlags = "-timescale=1ns/1ps +lint=all,noGCWM,noUI,noSVA-UA,noIDTS,noNS,noULCO,noCAWM-L,noWMIA-L,noSV-PIU,noSTASKW_CO,noSTASKW_CO1,noSTASKW_RMCOF -suppress +warn -sverilog +vc -Mupdate -line -full64 -lca -ntb_opts sensitive_dyn"
-    vcsCMD = f"vcs {vcsStandardFlags} -top {args.tb} {compileOptions} -Mdir={wkdir} {includePath} {srcdir}/cvw.sv {rtlFiles} -o {wkdir}/sim_out -work {wkdir} -Mlib={wkdir} -l {logdir}/{args.config}_{args.testsuite}.log"
-    simvCMD = f"{wkdir}/sim_out +TEST={args.testsuite} {args.args} -no_save {simvOptions}"
+    vcsCMD = f"vcs {vcsStandardFlags} +vcs+initreg+random -top {args.tb} {compileOptions} -Mdir={wkdir} {includePath} {srcdir}/cvw.sv {rtlFiles} -o {wkdir}/sim_out -work {wkdir} -Mlib={wkdir} -l {logdir}/{args.config}_{args.testsuite}.log"
+    simvCMD = f"{wkdir}/sim_out +vcs+initreg+0 +TEST={args.testsuite} {args.args} -no_save {simvOptions}"
     return vcsCMD, simvCMD
 
 def runVCS(vcsCMD, simvCMD):

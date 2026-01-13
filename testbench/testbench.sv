@@ -282,7 +282,7 @@ module testbench;
       $dumpfile("core_rtl.vcd");
       $dumpvars(1, dut.core.MTimerInt, dut.core.MExtInt, dut.core.SExtInt, dut.core.MSwInt, dut.core.MTIME_CLINT, dut.core.HRDATA, dut.core.HREADY, dut.core.HRESP, dut.core.HCLK, dut.core.HRESETn, dut.core.HADDR, dut.core.HWDATA, dut.core.HWSTRB, dut.core.HWRITE, dut.core.HSIZE, dut.core.HBURST, dut.core.HPROT, dut.core.HTRANS, dut.core.HMASTLOCK, dut.core.ExternalStall);
 `ifdef GATE_LEVEL
-      $dumpports(dut.core_gate,"core_gate.vcd");
+      $dumpports(dut.core_gate,dut.core_gate.lsu,dut.core_gate.lsu.bus_dcache_dcache,"core_gate.vcd");
 `endif /*GATE_LEVEL*/
     end
   end // initial begin
@@ -742,7 +742,7 @@ module testbench;
                 InstrFName, InstrDName, InstrEName, InstrMName, InstrWName);
 
   // watch for problems such as lockup, reading uninitialized memory, bad configs
-  watchdog #(P.XLEN, 1000000) watchdog(.clk, .reset, .TEST);  // check if PCW is stuck
+  watchdog #(P.XLEN, 100) watchdog(.clk, .reset, .TEST);  // check if PCW is stuck
   ramxdetector #(P.XLEN, P.LLEN) ramxdetector(clk, dut.core.lsu.MemRWM[1], dut.core.lsu.LSULoadAccessFaultM, dut.core.lsu.ReadDataM,
                                       dut.core.ifu.PCM, InstrM, dut.core.lsu.IEUAdrM, dut.core.lsu.StallW, InstrMName);
   riscvassertions       #(P) riscvassertions();     // check assertions for a legal architectural configuration

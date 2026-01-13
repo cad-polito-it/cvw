@@ -20,7 +20,6 @@ zoix -f ../netlist.f  +timescale+override+1ns/1ps \
 +top+wallypipelinedcore_gate+strobe \
 +sv +notimingchecks +define+ZOIX +define+TOPLEVEL=wallypipelinedcore_gate +suppress+cell +delay_mode_fault +verbose+undriven -l zoix_compile.log
 
-
 #2 step, simulation:
 
 ./zoix.sim +vcd+file+"${WALLY}/sim/${LOGIC_SIMULATOR}/core_gate.vcd" \
