@@ -19,18 +19,14 @@ module strobe;
 logic go=0;
 initial begin 
 
+    // Delay to mitigate the first mismatch due to XXX initialization 
     #90;
     go=1;
-    // forever begin 
-        
-    //     $fs_strobe(`TOPLEVEL);
-    //     #10;
-    //     $display("Strobed at %t", $time);
-    // end
+
 end 
 
-always @(negedge wallypipelinedcore_gate.clk & go) begin
-    $fs_strobe(wallypipelinedcore_gate);
+always @(negedge `TOPLEVEL.clk & go) begin
+    $fs_strobe(`TOPLEVEL);
     // $display("Strobed at %t", $time);
 end
 

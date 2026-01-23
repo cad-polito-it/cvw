@@ -13,6 +13,8 @@
 *.elf*
 *.list
 *.memfile
+*.swp
+
 
 # General directories to ignore
 .vscode/
@@ -34,6 +36,7 @@ tests/fp/combined_IF_vectors/IF_vectors/*.tv
 tests/custom/*/*/
 tests/custom/*/*/*.memfile
 sim/tests/riscvdv
+sim/vcs/inter.fsdb
 testbench/trek_files/*/uvm_output
 
 # Linux

@@ -50,6 +50,12 @@ SECTIONS
       __data_end = .;
     }
 
+  .signature (NOLOAD) :
+  {
+      PROVIDE(__signature = .);
+      LONG(0)
+  }
+
   .sdata : {
     __global_pointer$ = . + 0x800;
     *(.srodata.cst16) *(.srodata.cst8) *(.srodata.cst4) *(.srodata.cst2) *(.srodata*)

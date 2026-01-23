@@ -1,11 +1,28 @@
-#include "tests.h"
+#include "test.h"
+
+
+
+uint32_t signature_accumulate(uint32_t tmp_sig,uint32_t value)
+{
+    uint32_t sig = tmp_sig;
+
+    /* MISR-style accumulation */
+    for (int i = 0; i < 32; i++) {
+        uint32_t feedback = (sig >> 31) ^ (value >> 31);
+        sig <<= 1;
+        value <<= 1;
+        if (feedback)
+            sig ^= LFSR_POLY;
+    }
+
+    return sig;
+}
+
 
 // Info on cache instructions:
 // https://docs.riscv.org/reference/isa/v20240411/unpriv/cmo.html
 
-
 // cbo.flush --> flushes a cacheline 
-
 // Flush all the cache
 void cache_flush(void) {
     uint32_t *p = __data_start;
@@ -16,6 +33,7 @@ void cache_flush(void) {
         __asm__ volatile ("cbo.flush (%0)" :: "r"(p) : "memory");
     }
 }
+
 // Single cacheline flush
 void cache_flush_block(void* addr) {
 	__asm__ volatile ("cbo.flush (%0)" :: "r"(addr) : "memory");
@@ -94,23 +112,33 @@ uint32_t * check_payload (uint32_t golden_payload, uint32_t dir) {
   uint32_t tmp;
   uint32_t  *base;
   uint16_t i;
+  register uint32_t tmp_sig = __signature;
 
   if (dir) {
     for (base = __data_start; base < __data_end; base += CACHE_LINE_SIZE) {
       for (i=0; i<CACHE_LINE_SIZE; i++) {
         tmp = *(base+i);
-	if (tmp!=golden_payload) return (base+i);
+        tmp_sig = signature_accumulate(tmp_sig,tmp);
+	      if (tmp!=golden_payload) {
+          __signature=tmp_sig;
+          return (base+i);
+        }
       }
     }
   }
   else {
     for (base = __data_end-CACHE_LINE_SIZE; base >= __data_start; base -= CACHE_LINE_SIZE) {
       for (i=CACHE_LINE_SIZE; i>0; i--) {
-	tmp = *(base+i);
-	if (tmp!=golden_payload) return (base+i);
+        tmp = *(base+i);
+        tmp_sig = signature_accumulate(tmp_sig,tmp);
+        if (tmp!=golden_payload) {
+          __signature=tmp_sig;
+          return (base+i);
+        }
       }
     }
   }
+  __signature=tmp_sig;
 }
 
 void march_c_minus_one_way(void) {
@@ -158,16 +186,16 @@ void march_c_minus_one_way(void) {
   ret = check_payload(payload, 1);
 }
 
-void test_flush (void) {\
+void test_flush (void) {
   uint32_t payload = 0;
-  
+
   write_payload(payload, 1);
-  cache_flush();  
+  cache_flush();
   check_payload(payload, 1);
 
   payload = 1;
   write_payload(payload, 1);
-  cache_flush();  
+  cache_flush();
   check_payload(payload, 1);
 
 }
