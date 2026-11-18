@@ -8,7 +8,7 @@ It only adds files: merging a newer upstream `main` never conflicts.
 ## Core configuration
 
 `syn_polito_rv32e`, defined in `config/derivlist_polito.txt`: RV32I + Zicsr,
-no M extension, no caches, user mode, 16 PMP entries, AHB bus, reset vector
+no M extension, no caches, user mode, no PMP, AHB bus, reset vector
 `0x80000000`. `bin/run_cvw.py` generates its `config.vh` under `run/config/`;
 `make deriv` is not needed. `testbench/cvw_tb.sv` stops on any other configuration.
 

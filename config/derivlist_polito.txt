@@ -6,7 +6,9 @@
 deriv   syn_polito_rv32e       rv32e
 ZICSR_SUPPORTED         1
 E_SUPPORTED             0
-PMP_ENTRIES             16
+# No PMP: with 16 entries the PMP checkers held about half of the core's faults,
+# which an SBST does not exercise, and tripled the synthesis time.
+PMP_ENTRIES             0
 DTIM_RANGE              64'h1FF
 IROM_RANGE              64'hFFFF
 BOOTROM_RANGE           64'hFFFF
