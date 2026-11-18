@@ -1,0 +1,26 @@
+# Course configuration for the Testing and Fault Tolerance labs (Politecnico di Torino).
+# Read only by bin/run_cvw.py; kept out of config/derivlist.txt so that merges
+# from upstream never conflict. Same syntax as derivlist.txt; it must inherit
+# directly from rv32e. The result is RV32I + Zicsr (E_SUPPORTED 0), no M, no caches.
+
+deriv   syn_polito_rv32e       rv32e
+ZICSR_SUPPORTED         1
+E_SUPPORTED             0
+PMP_ENTRIES             16
+DTIM_RANGE              64'h1FF
+IROM_RANGE              64'hFFFF
+BOOTROM_RANGE           64'hFFFF
+UNCORE_RAM_RANGE        64'h1FFFFFFF
+DCACHE_WAYSIZEINBYTES   32'd512
+ICACHE_WAYSIZEINBYTES   32'd512
+DCACHE_NUMWAYS          32'd1
+ICACHE_NUMWAYS          32'd1
+BPRED_SIZE              32'd5
+BTB_SIZE                32'd5
+DCACHE_SUPPORTED        0
+ICACHE_SUPPORTED        0
+# User mode supported
+U_SUPPORTED             1
+# rv32e builds the integer register file from latches (upstream default since
+# November 2026). Uncomment for a flip-flop register file:
+# LATCH_BASED_REGISTERFILE 0

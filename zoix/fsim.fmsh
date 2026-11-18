@@ -1,0 +1,14 @@
+# Functional fault simulation for the Part 2 CVW core.
+set(var=[defines], format=[standard])
+set(var=[fdef], method=[fr], fr.fr=[faults.sff],abort=[error])
+set(var=[fsim],hyperfault=[0])
+set(var=[defines], progress.enable=[1], progress.limit=[300])
+set(var=[defines], progress.style=[long])
+set(var=[coats],method=[allf])
+
+design()
+addtst(test=[cvw_core], stimtype=[vcd], stim=[stimulus.evcd], dut.stim=[wallypipelinedcore_gate, cvw_tb.dut], stim_options=[+TESTNAME=cvw_core,+vcd+clk+clk])
+fsim()
+coverage(group=[detail])
+coverage(file=[cvw_coverage.sff])
+coverage(file=[cvw_coverage_hierarchical.sff],hierarchical=[4])

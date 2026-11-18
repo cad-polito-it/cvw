@@ -1,0 +1,12 @@
+FaultGenerate
+{
+    # Default Section 3 target: ALU. Paths are netlist instance names,
+    # not parameterized module names or RTL paths from RI5CY.
+    NA [0,1] { PORT "wallypipelinedcore_gate.ieu.dp.alu.**" }
+
+    # Replace the active line above for a whole-core experiment:
+    # NA [0,1] { PORT "wallypipelinedcore_gate.**" }
+
+    # Or for a register-file experiment:
+    # NA [0,1] { PORT "wallypipelinedcore_gate.ieu.dp.regf.**" }
+}

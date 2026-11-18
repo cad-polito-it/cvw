@@ -1,0 +1,8 @@
+# Build products of compile_sbst.sh
+sbst.elf
+sbst.hex
+sbst.map
+sbst.objdump
+sbst.sections
+sbst.symbols
+sbst.build.json

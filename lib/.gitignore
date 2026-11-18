@@ -1,0 +1,4 @@
+# Nangate45 files are not redistributed here: copy NangateOpenCellLibrary_typical.db
+# and NangateOpenCellLibrary.v into this folder (see README_tft_lab.md).
+*
+!.gitignore
