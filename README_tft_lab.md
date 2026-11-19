@@ -54,4 +54,4 @@ refuses an eVCD older than the program or the netlist.
 The program ends by returning from `main`: `_exit` writes `(status << 1) | 1`
 to `tohost`, and the testbench passes only on exit status 0.
 `python3 bin/run_cvw.py clean` removes `run/` and the compiled program.
-`SIM=vcs` selects VCS instead of Questa for the logic simulations.
+The labs use Questa for every logic simulation; `SIM=vcs` selects VCS where it is installed (not at LabInf).
