@@ -46,7 +46,9 @@ refuses an eVCD older than the program or the netlist.
 | Folder | Content |
 | --- | --- |
 | `sbst/` | `crt0.S` (startup), `vectors.S` (trap), `sbst_boot.S` (SBST routine), `main.S` (or `main.c` with `MAIN=main.c`), `link.ld` |
-| `zoix/` | `faults.sff` (fault list: the ALU by default), `strobe.sv` (AHB outputs, every cycle), `fsim.fmsh` |
+| `sbst/` (lab programs) | data-driven tests: `add_test.S` (table `add_vectors.inc`), `shift_test.S` (table `shift_vectors.inc`), `addsub_test.S`; build with `bash compile_sbst.sh MAIN=add_test.S`. Each table also sets `OBSERVE` (store every result, a signature, or nothing). Ready tables in `sbst/vectors/` |
+| `zoix/` | `faults.sff` (fault list: the ALU by default), `faults_adder.sff`, `faults_shifter.sff`, `faults_regfile.sff`, `faults_core.sff` (use with `bash run_zoix_fsim.sh --faults <file>`), `strobe.sv` (AHB outputs, every cycle), `fsim.fmsh` |
+| `atpg/`, `bin/stil2vectors.py` | optional: ATPG of the ALU adder with TestMAX (`tmax.sh` of the labs) and conversion of the STIL patterns into a table for `add_test.S` or `addsub_test.S` |
 | `testbench/` | `cvw_tb.sv` (one core, RTL or gate, zero-wait AHB memory, exit mailbox `tohost` at `0x80040000`), `waves.tcl` |
 | `synthDC/scripts/` | `cvw_synth.tcl`, `cvw_wrapper.sv` (hierarchical compile that keeps `ieu/dp/alu` and `ieu/dp/regf`) |
 | `run/` | every result, in timestamped folders (`questa/`, `zoix/`, `synth/`); not versioned |

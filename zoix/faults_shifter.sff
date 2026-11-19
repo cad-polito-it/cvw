@@ -1,0 +1,5 @@
+FaultGenerate
+{
+    # stuck-at 0 and 1 on every cell pin under wallypipelinedcore_gate.ieu.dp.alu.sh.**
+    NA [0,1] { PORT "wallypipelinedcore_gate.ieu.dp.alu.sh.**" }
+}
